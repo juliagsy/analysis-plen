@@ -60,6 +60,15 @@ def get_hits(graph, top_k):
     return sort_dict(inverse_hub, reverse=True, top_k=top_k), sort_dict(inverse_auth, reverse=True, top_k=top_k)
 
 
+def get_betweenness_centrality(graph, top_k):
+    all_bc = nx.betweenness_centrality(graph)
+    inverse_bc = {}
+    for n, v in all_bc.items():
+        if v != 0:
+            inverse_bc[v] = n
+    return sort_dict(inverse_bc, reverse=True, top_k=top_k)
+
+
 def get_knn(graph, source, target, top_k):
     all_knns = nx.average_neighbor_degree(graph, source=source, target=target)
     inverse_knn = {}
