@@ -78,7 +78,7 @@ def calculate_knn(graph, source, target):
     return list(all_knns.keys()), list(all_knns.values())
 
 
-def get_centrality(graph, in_deg):
+def get_centrality(graph, in_deg, top_k):
     all_c = nx.in_degree_centrality(graph) if in_deg else nx.out_degree_centrality(graph)
     inverse_c = {}
     for n, v in all_c.items():
@@ -86,7 +86,7 @@ def get_centrality(graph, in_deg):
             inverse_c[v].append(n)
         else:
             inverse_c[v] = [n]
-    inverse_c = sort_dict(inverse_c, reverse=True)
+    inverse_c = sort_dict(inverse_c, reverse=True, top_k=top_k)
     return inverse_c
 
 
@@ -101,8 +101,9 @@ def maximal_random_rewiring(graph, n=10000):
 # plotting
 
 def create_node_colors(graph, communities):
+    offset = 50
     number_of_colors = len(communities)
-    colors = list(matplotlib.colors.cnames.values())[:number_of_colors]
+    colors = list(matplotlib.colors.cnames.values())[offset:number_of_colors+offset]
     node_colors = []
     for node in graph:
         current_community_index = 0
@@ -129,11 +130,11 @@ def plot_graph(fig_num, xs, ys, labels, xlabel, ylabel, title, *, xlim=None, yli
             plt.ylim(ylim[0], ylim[1])
 
 
-def plot_network(fig_num, network, community):
+def plot_network(fig_num, network, community, node_size=200, with_labels=True, font_size=5):
     plt.figure(fig_num)
     plt.title("Community structure of pl_network")
     node_colors = create_node_colors(network, community)
-    nx.draw(network, node_size=50, node_color=node_colors)
+    nx.draw(network, node_color=node_colors, node_size=node_size, with_labels=with_labels, font_size=font_size)
 
 
 def show_graph():
