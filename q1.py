@@ -67,7 +67,7 @@ print()
 
 pl_bc = get_betweenness_centrality(pl_network, 10)
 
-print(f"pl_network betweenness centrality: {pl_bc}")
+print(f"pl_network top 10 betweenness centrality: {pl_bc}")
 print()
 
 
